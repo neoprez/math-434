@@ -11,10 +11,12 @@ states_upper = { "california": "CALIFORNIA", "michigan":"MICHIGAN", "new_york":"
 
 path = "data/"
 # ignore year 2000
-apples_data = { '2001':{}, '2002':{}, '2003':{}, '2004':{}, '2005':{}} 
-temp_data  = {'2001':{}, '2002':{}, '2003':{}, '2004':{}, '2005':{}} 
+apples_data = { '2001':{}, '2002':{}, '2003':{}, '2004':{}, '2005':{},
+								'2006':{}, '2007':{}, '2008':{}, '2009':{}, '2010': {}} 
+temp_data  = {'2001':{}, '2002':{}, '2003':{}, '2004':{}, '2005':{},
+							'2006':{}, '2007':{}, '2008':{}, '2009':{}, '2010':{}} 
 
-with open(path+"apple-2000-2005.csv") as f:
+with open(path+"apple-2000-2010.csv") as f:
 	reader = csv.DictReader(f)
 
 	for row in reader:
@@ -23,14 +25,17 @@ with open(path+"apple-2000-2005.csv") as f:
 		if row['Period'] not in apples_data[row['Year']]:
 			apples_data[row['Year']][row['Period']] = {}
 
-		val = float(row['Value'])
+		if row['Value'] == ' (NA)':
+			vale = 0
+		else:
+			val = float(row['Value'])
 
 		apples_data[row['Year']][row['Period']][row['State'].lower().replace(" ", "_")] = val
 
 #print apples_data
 
 for state in states:
-	with open(path + "anual-" + state + "-2000-2005.csv") as f:
+	with open(path + "anual-" + state + "-2000-2010.csv") as f:
 		reader = csv.DictReader(f)
 
 		# date is formatted as YYYYmm. Ex: 200101
@@ -132,7 +137,7 @@ def print_apples_as_table(apples_data):
 			print m+"\t", "%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s"%tuple(vals)
 		print "*"*100
 
-print_as_table(avg_temps)
-print 
 print "APPLES DATA"
 print_apples_as_table(apples_data)
+print
+print_as_table(avg_temps)
