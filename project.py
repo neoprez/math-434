@@ -1,5 +1,5 @@
 import csv
-from collections import defaultdict
+import matplotlib.pyplot as plt
 
 states = ["california", "michigan", "new_york", 
 					"ohio", "pennsylvania", "virginia", 
@@ -11,30 +11,33 @@ states_upper = { "california": "CALIFORNIA", "michigan":"MICHIGAN", "new_york":"
 
 path = "data/"
 # ignore year 2000
-apples_data = { '2001':{}, '2002':{}, '2003':{}, '2004':{}, '2005':{},
-								'2006':{}, '2007':{}, '2008':{}, '2009':{}, '2010': {}} 
-temp_data  = {'2001':{}, '2002':{}, '2003':{}, '2004':{}, '2005':{},
-							'2006':{}, '2007':{}, '2008':{}, '2009':{}, '2010':{}} 
+#d[state][year][period]=val
+apples_info = {}
+periods = {"JAN":1, "FEB":2, "MAR":3, "APR":4, "MAY":5, "JUN":6, "JUL":7, "AUG":8, "SEP":9, "OCT":10, "NOV":11, "DEC":12}
 
 with open(path+"apple-2000-2010.csv") as f:
 	reader = csv.DictReader(f)
 
 	for row in reader:
-		#row['Period']
-		#row['Value']
-		if row['Period'] not in apples_data[row['Year']]:
-			apples_data[row['Year']][row['Period']] = {}
+		state = row['State'].lower().replace(" ", "_")
+		if state not in apples_info:
+			apples_info[state] = {}
+
+		if row['Year'] not in apples_info[state]:
+			apples_info[state][row['Year']] = [0.0] * 12
 
 		if row['Value'] == ' (NA)':
-			vale = 0
+			val = 0
 		else:
 			val = float(row['Value'])
 
-		apples_data[row['Year']][row['Period']][row['State'].lower().replace(" ", "_")] = val
+		apples_info[state][row['Year']][periods[row['Period']]-1] = val
 
 #print apples_data
-
+# dict[state][year][month][mean]
+state_temperatures = {}
 for state in states:
+	state_temperatures[state] = {}
 	with open(path + "anual-" + state + "-2000-2010.csv") as f:
 		reader = csv.DictReader(f)
 
@@ -46,39 +49,11 @@ for state in states:
 			# ignore year 2000
 			if year == '2000': continue
 
-			month = row["DATE"][4:]
+			if year not in state_temperatures[state]:
+				state_temperatures[state][year] = [0.0] * 12 # each year contains a list of all temperatures for the given month	
 
-			if month == '01':
-				month = "JAN"
-			elif month == '02':
-				month = "FEB"
-			elif month == '03':
-				month = "MAR"
-			elif month == '04':
-				month = "APR"
-			elif month == '05':
-				month = "MAY"
-			elif month == '06':
-				month = "JUN"
-			elif month == '07':
-				month = "JUL"
-			elif month == '08':
-				month = "AUG"
-			elif month == '09':
-				month = "SEP"
-			elif month == '10':
-				month = "OCT"
-			elif month == '11':
-				month = "NOV"
-			else:
-				month = "DEC"
-
-			#print state
-			if month not in temp_data[year]:
-				temp_data[year][month] = {}
-
-			if state not in temp_data[year][month]:
-				temp_data[year][month][state] = []
+			month = row["DATE"][4:]	
+			m = int(month)
 
 			# watch out for -9999
 			mean = float(row["MNTM"])
@@ -91,53 +66,22 @@ for state in states:
 			if mean < 0:
 				mean = float(row["MMNT"])
 
-			temp_data[year][month][state].append(mean)
+			state_temperatures[state][year][m-1] = mean
 
-# average temperature per year per month per state
-avg_temps = {}
-for year, months in temp_data.items():
-	if year not in avg_temps:
-		avg_temps[year] = {}
+def print_state_temp_as_table(data):
+	ms = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+	for s in data.keys():
+		print "\t"*6,states_upper[s]
+		print "*" * 100
+		print "    \t", "\t".join(ms)
+		print "_" * 100
+		years = sorted(data[s].keys())
+		for year in years:
+			print year+"\t", "\t".join(map(str,data[s][year]))
+		print "-" * 100	
 
-	for month, data in months.items():
-		if month not in avg_temps[year]:
-			avg_temps[year][month] = {}
 
-		for state, sdata in data.items():
-			avg_temps[year][month][state] = sum(sdata)/float(len(sdata))
-
-# for visualization purposes print each month of each year as table
-# 			state1	state2	state3 ...
-# month1
-# month2
-ms = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
-def print_as_table(data):
-	for year, months in sorted(data.items()):
-		print "Year", year
-		print "-" * 100
-		print "\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s"%tuple([st.upper() for st in states])
-
-		for m in ms:
-			print m+"\t", "%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s"%tuple([str(months[m][s]) for s in states])
-		print "*"*100
-
-def print_apples_as_table(apples_data):
-	for year, months in sorted(apples_data.items()):
-		print "Year", year
-		print "-" * 100
-		print "\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s"%tuple([st.upper() for st in states])
-
-		for m in ms:
-			vals = []
-			for s in states:
-				if s in months[m]:
-					vals.append(str(months[m][s]))
-				else:
-					vals.append('0')
-			print m+"\t", "%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s\t%-13s"%tuple(vals)
-		print "*"*100
-
-print "APPLES DATA"
-print_apples_as_table(apples_data)
-print
-print_as_table(avg_temps)
+print "^" * 43, "TEMPERATURES", "^" * 43
+print_state_temp_as_table(state_temperatures)
+print "#" * 43, "APPLE PRICES", "#" * 43
+print_state_temp_as_table(apples_info)
