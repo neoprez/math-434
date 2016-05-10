@@ -107,6 +107,13 @@ def print_state_temp_as_table(data, averages_per_month):
 		print "AVG:\t", "\t".join(map(str,averages_per_month[s]))
 		print "*" * 100
 
+def print_as_table(state_temperatures, apples_info, monthly_state_temp_averages, monthly_state_apples_averages):
+	print "^" * 43, "TEMPERATURES", "^" * 43
+	print_state_temp_as_table(state_temperatures, monthly_state_temp_averages)
+
+	print "#" * 43, "APPLE PRICES", "#" * 43
+	print_state_temp_as_table(apples_info, monthly_state_apples_averages)
+
 if __name__ == "__main__":
 	state_temperatures = load_state_temperatures()
 	apples_info = load_apples_info()
@@ -114,8 +121,4 @@ if __name__ == "__main__":
 	monthly_state_temp_averages = get_averages_per_month_across_years(state_temperatures)
 	monthly_state_apples_averages = get_averages_per_month_across_years(apples_info)
 
-	print "^" * 43, "TEMPERATURES", "^" * 43
-	print_state_temp_as_table(state_temperatures, monthly_state_temp_averages)
-	
-	print "#" * 43, "APPLE PRICES", "#" * 43
-	print_state_temp_as_table(apples_info, monthly_state_apples_averages)
+	#print_as_table(state_temperatures, apples_info, monthly_state_temp_averages, monthly_state_apples_averages)
