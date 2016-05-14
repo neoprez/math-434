@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.stats as stats
 
 states = ["california", "michigan", "new_york",
 					"ohio", "pennsylvania", "virginia",
@@ -121,4 +122,61 @@ if __name__ == "__main__":
 	monthly_state_temp_averages = get_averages_per_month_across_years(state_temperatures)
 	monthly_state_apples_averages = get_averages_per_month_across_years(apples_info)
 
-	#print_as_table(state_temperatures, apples_info, monthly_state_temp_averages, monthly_state_apples_averages)
+	# print_as_table(state_temperatures, apples_info, monthly_state_temp_averages, monthly_state_apples_averages)
+	# # plot averages
+	# plt.figure(1)
+	#
+	# plt.subplot(221)
+	# for state in states:
+	# 	plt.plot(monthly_state_temp_averages[state], label=states_upper[state])
+	# plt.title("Plot of average temperatures from 2001-2010 for 7 states")
+	# plt.legend(loc=2,fontsize='x-small')
+	# plt.xlabel("Month")
+	# plt.ylabel("Temperature")
+	#
+	# plt.subplot(222)
+	# for state in states:
+	# 	plt.plot(monthly_state_apples_averages[state], label=states_upper[state])
+	# plt.title("Plot of average prices from 2001-2010 for 7 states")
+	# plt.legend(loc=2,fontsize='x-small')
+	# plt.xlabel("Month")
+	# plt.ylabel("Price in pounds")
+	#
+	# plt.show()
+	#
+	# # calculate correlations
+	# for state in states:
+	# 	print state, stats.pearsonr(monthly_state_temp_averages[state], monthly_state_apples_averages[state])
+
+	# effects of temperature on apple production
+	# x-axis is temperature
+	# y-axis is the apple production in pounds
+	prices = []
+	temps = []
+	produced_or_not = []
+	for state in states:
+		for pdata, tdata in zip(apples_info[state].values(), state_temperatures[state].values()):
+			for price, temp in zip(pdata, tdata):
+				if price > 0:
+					prices.append(price)
+					temps.append(temp)
+					plt.scatter(temp, price, c='r')
+					produced_or_not.append((temp,1))
+				else:
+					produced_or_not.append((temp,0))
+
+	result = stats.linregress(temps, prices)
+	# print temps
+	plt.title("Effects of temperature on apple production")
+	# plt.xlabel("Price in pounds")
+	# plt.ylabel("Temperature")
+	plt.xlabel("Temperature")
+	plt.ylabel("Price in Pounds")
+	plt.show()
+
+	plt.title("Graph of temperature on production or not")
+	xs, ys = zip(*produced_or_not)
+	plt.scatter(xs, ys)
+	plt.xlabel("Temperature")
+	plt.ylabel("Produced or Not")
+	plt.show()
