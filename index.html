@@ -1,0 +1,216 @@
+<html>
+  <head>
+    <title>Data Science Project by Rodny Perez</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css" > -->
+    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css" >
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic' rel='stylesheet' type='text/css'>
+    <style>
+      body {
+        font-family: 'Open Sans';
+        font-size: 16px;
+        background-color: #f2f2f2;
+      }
+      a {
+        color: #F44336;
+      }
+      a:hover {
+        color: #000;
+      }
+      h2 {
+        font-size: 25px;
+      }
+
+      hr {
+        border-top: 1px solid #D0D0D0;
+      }
+      .navbar {
+        margin-bottom: 0px;
+      }
+      .jumbotron {
+        background-image:url('apples copy.jpg');
+        background-size:cover;
+        color: #fff;
+        padding-top: 140px;
+        padding-bottom: 140px;
+      }
+      .jumbotron h2 {
+        color: #fff;
+        text-shadow: 2px 2px rgba(102, 102, 102, 0.33);
+      }
+      ::selection {
+        background:rgba(244, 54, 54, 0.5);
+        color: #fff;
+      }
+      ::-moz-selection{
+        background: rgba(244, 54, 54, 0.5);
+        color: #fff;
+      }
+      @media (min-width:768px)  {
+        h2 {
+          font-size: 35px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button class="navbar-toggle collapsed"
+            type="button" data-toggle="collapse"
+            data-target="#main-navbar"
+            aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" class="navbar-brand">
+              Rodny Perez
+            </a>
+          </div>
+          <div class="collapse navbar-collapse" id="main-navbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="index.html">
+                  Home
+                </a>
+              </li>
+              <li class="active">
+                <a href="data-science.html">Data Science</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2>
+              The Effects of Weather in the Production and Price Change
+              of Apples
+            </h2>
+            <p>by Rodny Perez</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+          <h4>The Effects of Weather in the Production and Price Change
+            of Apples.
+        </h4>
+          <p>Find out how the change in weather affects the price
+            and the production of apples. A project for my class
+            <em>Introduction to Data Science</em> that
+            I took at Lehman College.</p>
+          <h3>Motivation</h3>
+          <hr>
+          <p>
+            When I started this project, I wanted to know
+            how much effect weather events, such as hurricanes
+            and earthquakes, had over the price of all crops in the USA.
+            However, due to it's complexity, I had to narrow it down
+            to something much simpler. One day I read a
+            <a href="http://www.harvesttotable.com/2009/07/how_to_grow_apples/">post</a>
+            about how to grow apples. Within this post, the author
+            says that <em>"Apples grow best where there is cold in winter,
+              moderate summer temperatures, and medium to high humidity."</em>
+              After reading this post, I got interested in knowing if what
+              the author stated was true. Along with that, I wanted to incorporate
+              my initial idea of knowing how the price of a crop changes
+              depending on the weather. For this project, I want to know if
+              there is a real correlation between the production of apples
+              and the weather, as well as if there is a correlation between
+              the price of the apples and the weather. To test my assumptions,
+              I've used a correlation test. The code is written using <b>Python</b>
+              and the graphs were created using <b>matplotlib</b>. The
+              code is available on <a href="https://github.com/neoprez/math-434">Github</a>.
+            <h3>The Datasets</h3>
+            <hr>
+            <p>Seven (7) states
+            that reported production of apples are evaluated in
+            this project. These states are <b>California,
+            Michigan, New York, Ohio, Pennsylvania, Virginia
+            and Washington.</b>
+            The dataset for the weather was collected from the
+              <a href="https://www.ncdc.noaa.gov/cdo-web/datasets
+  ">NOAA</a> website. This set contains the mean, max and min air
+  temperatures from <b>2001</b> to <b>2010</b> for the 7 states mentioned above.
+            The price information of apples was collected from <a href="http://usda.mannlib.cornell.edu/MannUsda/viewDocumentInfo.do;jsessionid=18BB3D5F6079AD6CFBCE006C0258C49E?documentID=1050">
+            USDA ESMIS
+          </a>. This dataset contains the annual summary of crop values
+          by month, for each of the 7 states from <b>2001</b> to <b>2010</b>. The price of the apples
+          is determined in pounds.
+          <h3>Team</h3>
+          <hr>
+          Rodny Perez - Creator
+          <h3>Techniques</h3>
+          <hr>
+          <p>To have a better idea as to how the weather looked like from 2001
+            to 2010 for the 7 states, I plotted the average weather data collected.
+            In this graph, we can see how the temperatures oscillates between
+            states. As expected lower temperatures for the period October-April
+          and higher temperatures for the period May-August.</p>
+          <a href="average_temp_from_2001-2010.png">
+            <img src="average_temp_from_2001-2010.png" class="img-responsive"/>
+          </a>
+          <p>Additionally, I plotted the price data for apples for each state
+          from 2001 to 2010. In this graph we can see that some states did not
+          produce apples or reported earnings during the warmer months. Also, we can
+          see a dramatic reduction in the reported earnings for all
+          states for the aforementioned months.</p>
+          <a href="average-prices-2001-2010.png">
+            <img src="average-prices-2001-2010.png" class="img-responsive"/>
+          </a>
+          <p>The following graph reveals something interesting.
+          Even though there is a high concentration in the production
+          of apples on temperatures between 35 and 60 degrees,
+          the price of apples increases slightly as temperature
+          increases. After running a correlation test (price vs temperature),
+          this slight increase can be noted as the result of the
+          correlation test is of 0.224912643792. This result shows that the
+          price of apples and temperature are positively correlated by a 22%.</p>
+          <a href="price-over-temp.png">
+            <img src="price-over-temp.png" class="img-responsive"/>
+          </a>
+          <h3>Another Experiment</h3>
+          <hr>
+          In another experiment, I was trying to develop a model that will be
+          able to predict whether a given place will be good for planting apples.
+          For this model, I planned to use a logistic regression function, where
+          the input will be the temperature and the output whether it produces
+          or not.
+          <a href="produced_or_not.png">
+            <img src="produced_or_not.png" class="img-responsive"/>
+          </a>
+          <h3>Citations</h3>
+          <hr>
+          <ul>
+            <li><a href="https://www.ncdc.noaa.gov/cdo-web/datasets
+">National Centers for Environmental Information (NOAA)</a></li>
+            <li><a href="http://usda.mannlib.cornell.edu/MannUsda/viewDocumentInfo.do;jsessionid=18BB3D5F6079AD6CFBCE006C0258C49E?documentID=1050">
+              United States Department of Agriculture Economics, Statistics and Market Information System (USDA ESMIS)
+            </a></li>
+            <li><a href="http://www.harvesttotable.com/2009/07/how_to_grow_apples/">
+              How to Grow Apples
+            </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <footer class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+          <p class="text-right">Rodny Perez&copy; 2016</p>
+        </div>
+      </div>
+    </footer>
+    <script   src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -2,6 +2,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as stats
+import statistics as st
 
 states = ["california", "michigan", "new_york",
 					"ohio", "pennsylvania", "virginia",
@@ -166,6 +167,8 @@ if __name__ == "__main__":
 					produced_or_not.append((temp,0))
 
 	result = stats.linregress(temps, prices)
+	correlation = st.correlation(prices, temps)
+	print "Correlation: ", correlation
 	# print temps
 	plt.title("Effects of temperature on apple production")
 	# plt.xlabel("Price in pounds")
