@@ -166,9 +166,16 @@ if __name__ == "__main__":
 				else:
 					produced_or_not.append((temp,0))
 
-	result = stats.linregress(temps, prices)
+	result = stats.linregress(prices, temps)
 	correlation = st.correlation(prices, temps)
+	temps2, produced = zip(*produced_or_not)
+	correlation2 = st.correlation(temps2, produced)
+
 	print "Correlation: ", correlation
+	print result
+	print "SD prices:", np.std(prices)
+	print "SD temps:", np.std(temps)
+	print "Correlation 2:", correlation2
 	# print temps
 	plt.title("Effects of temperature on apple production")
 	# plt.xlabel("Price in pounds")
